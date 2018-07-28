@@ -1,0 +1,12 @@
+{
+	"dbname" : "database",
+	"dbuser" : "username",
+	"dbpass" : "password",
+	"production" : false,
+	"debug" : false,
+	"stripeSecretKey" : "sk_test_uPBbkVQRwh5dcubyMl84gDMy",
+	"kiteSecretKey" : "95018d7c7ac16e80bbdc3c59ac279b51d69c2de7",
+	"kitePublicKey" : "96e3a06ae7a438ecbbc515b44fa2f7b6ea67c1dc",
+	"AWS_ACCESS_KEY_ID" : "",
+	"AWS_SECRET_ACCESS_KEY" : ""
+}
