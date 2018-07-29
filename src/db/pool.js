@@ -1,13 +1,13 @@
 const {Pool} = require('pg');
 
-const pool = new Pool({
+const instance = new Pool({
     user: 'cody',
     host: 'localhost',
     database: 'cody',
     password: 'password'
 });
 
-module.exports = {
+export const pool = {
     /**
      * Query the database using an available client from the pool
      *
@@ -16,6 +16,6 @@ module.exports = {
      * @return {Promise}        resolves with the result of the query
      */
     query: async (query, params) => {
-        return await pool.query(query, params);
+        return await instance.query(query, params);
     }
-}
+};

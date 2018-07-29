@@ -1,7 +1,3 @@
-const pool = require('./pool');
-const schema = require('./schema');
-
-module.exports = {
-    pool,
-    schema
-};
+export {QueryBuilder} from './QueryBuilder';
+export {pool} from './pool';
+export {schema} from './schema';

@@ -1,6 +1,6 @@
 import Entity from './Entity';
 import Collection from './Collection';
-const {pool} = require('../db');
+import {pool, QueryBuilder} from '../db';
 
 class Entities extends Collection {
     constructor(entities) {
@@ -12,36 +12,19 @@ class Entities extends Collection {
      *
      * @param  {string} name the name of the table/entity
      * @param  {object} keys the keys to use to query the entity
+     * @param  {array}  internalProperties properties that shouldn't be sent to clients
      * @return {Entity}      the entity corresponding to a record
      */
-    static async fromDB(name, keys = {}) {
-        /*
-         * "SELECT * FROM table_name WHERE key1 = $1 AND key2 = $2"
-         */
-
-        const whereClauseParts = [];
-        const parameters = [];
-
-        Object.keys(keys).forEach((column, index) => {
-            const key = keys[column];
-            parameters.push(key);
-
-            whereClauseParts.push(`"${column}" = $${index + 1}`)
-        });
-
-        const whereClause = whereClauseParts.length
-            ? 'WHERE ' + whereClauseParts.join(' AND ')
-            : '';
-
-        const query = `SELECT * FROM ${name} ${whereClause}`;
+    static async fromDB(name, keys = {}, internalProperties = []) {
+        const [query, parameters] = QueryBuilder.select(name, keys);
 
         const result = await pool.query(query, parameters);
 
-        if (!(result.rows && result.rows.length)) {
+        if (!result.rowCount) {
             return new Entities();
         }
 
-        const entities = result.rows.map(record => new Entity(name, record));
+        const entities = result.rows.map(record => new Entity(name, record, internalProperties));
 
         return new Entities(entities);
     }

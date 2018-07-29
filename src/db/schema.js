@@ -3,7 +3,7 @@
  *
  * @type {Object}
  */
-const types = {
+export const types = {
     string: Symbol('varchar'),
     number: Symbol('decimal or integer'),
     time: Symbol('timestamp'),
@@ -119,12 +119,7 @@ const relationships = {
  *
  * @type {Object}
  */
-const schema = {
+export const schema = {
     entities,
     relationships
-};
-
-module.exports = {
-    schema,
-    types
 };

@@ -11,7 +11,10 @@ app.use(function(req, res, next) {
   next();
 });
 
-// Entity.fromDB('users', {id: 10}).then(entity => console.log(entity));
-Entities.fromDB('users').then(entity => console.log(entity));
+const {pool} = require('./db');
+// pool.query('SELECT * FROM "users"').then(x => console.log(x));
+
+Entity.fromDB('users', {id: 8}, ['password', 'stripe_customer_id']).then(entity => entity && console.log(entity.toJSON()));
+// Entities.fromDB('users', {}, ['password', 'stripe_customer_id']).then(entity => console.log(entity.toJSON()));
 
 module.exports = app;

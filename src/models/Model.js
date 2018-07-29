@@ -9,7 +9,7 @@ class Model {
      * @param {object} properties
      * @param {array}  internalProperties properties that shouldn't be sent to clients
      */
-    constructor(name, properties, internalProperties) {
+    constructor(name, properties, internalProperties = []) {
         this.columns = Object.keys(properties);
         this.name = name;
         this.properties = properties;
@@ -22,12 +22,10 @@ class Model {
 
             return {
                 ...acc,
-                property
+                [property]: this.properties[property]
             };
-        });
+        }, {});
     }
-
-    toString = () => this.toJSON();
 }
 
 export default Model;
