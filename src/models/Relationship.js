@@ -5,20 +5,29 @@ import Model from './Model';
  *
  * @extends Model
  */
-class Relationship extends Model {
+export default class Relationship extends Model {
     /**
      * Create a relationship
      *
      * @param {string}   name the name of the relationship
      * @param {Entity[]} entities An array of Entity models
+     * @param {array}    internalProperties properties that shouldn't be sent to clients
      * @param {object}   properties the properties of the relationship
      */
-    constructor(name, properties, entities) {
+    constructor(name, properties, internalProperties, entities) {
         super(name, properties);
         this.entities = entities;
     }
 
-    toJSON() {
-        // TODO
+    static async fromDB(
+        name,
+        entityNames = [],
+        keys = {},
+        entityKeys = {},
+        internalProperties = [],
+        entityInternalProperties = {}
+    ) {
+        const relationships = await Relationships.fromDB(name, entityNames, keys, internalProperties);
+        return relationships.first();
     }
 }

@@ -8,7 +8,7 @@ class Entities extends Collection {
     }
 
     /**
-     * Create a new Entity from the database
+     * Create a new Entities from the database
      *
      * @param  {string} name the name of the table/entity
      * @param  {object} keys the keys to use to query the entity

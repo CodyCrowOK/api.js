@@ -1,5 +1,6 @@
 import Entity from './models/Entity';
 import Entities from './models/Entities';
+import Relationships from './models/Relationships';
 
 const express = require('express');
 const app = express();
@@ -11,10 +12,17 @@ app.use(function(req, res, next) {
   next();
 });
 
-const {pool} = require('./db');
-// pool.query('SELECT * FROM "users"').then(x => console.log(x));
-
-Entity.fromDB('users', {id: 8}, ['password', 'stripe_customer_id']).then(entity => entity && console.log(entity.toJSON()));
+// Entity.fromDB('users', {id: 8}, ['password', 'stripe_customer_id']).then(entity => entity && console.log(entity.toJSON()));
 // Entities.fromDB('users', {}, ['password', 'stripe_customer_id']).then(entity => console.log(entity.toJSON()));
+
+const promise = Relationships.fromDB(
+    'user_owns_event',
+    ['users', 'events'],
+    {owner: 11, event: 34},
+    {users: {id: 8}, events: {id: 34}},
+    [],
+    {users: ['password']}
+);
+promise.then(x => console.log(x.models[0].entities));
 
 module.exports = app;
