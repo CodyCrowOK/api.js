@@ -1,5 +1,5 @@
 import Entities from '../models/Entities';
-import {types} from './';
+import {types, getInternalProperties} from './';
 
 export class SchemaParser {
     constructor(schema) {
@@ -41,7 +41,9 @@ export class SchemaParser {
 
                 const name = route.split('/')[1];
 
-                res.send(await Entities.fromDB(name, params /* TODO */));
+                const internalProperties = getInternalProperties(this.schema, name);
+
+                res.send(await Entities.fromDB(name, params, internalProperties));
             });
         });
     }
