@@ -1,3 +1,4 @@
+import Entities from '../models/Entities';
 import {types} from './';
 
 export class SchemaParser {
@@ -22,25 +23,26 @@ export class SchemaParser {
      * @return {express}
      */
     generateRoutes(app) {
-        app.get('/users/:userId/books/:bookId?', function (req, res) {
-            res.send(req.params);
+        const entityRoutes = Object.keys(this.schema.entities).map(entityName => {
+            const table = this.schema.entities[entityName];
+            const route = this.buildRoute(entityName, table);
+            return route;
         });
 
+        const relationshipRoutes = Object.keys(this.schema.relationships).map(name => {
+            const table = this.schema.relationships[name];
+            const route = this.buildRoute(name, table);
+            return route;
+        });
 
+        entityRoutes.forEach(route => {
+            app.get(route, async (req, res) => {
+                const params = req.params;
 
-        const routes = [
-            ...Object.keys(this.schema.entities).map(entityName => {
-                const table = this.schema.entities[entityName];
-                const route = this.buildRoute(entityName, table);
-                return route;
-            }),
-            ...Object.keys(this.schema.relationships).map(name => {
-                const table = this.schema.relationships[name];
-                const route = this.buildRoute(name, table);
-                return route;
-            })
-        ];
+                const name = route.split('/')[1];
 
-        console.log(routes);
+                res.send(await Entities.fromDB(name, params /* TODO */));
+            });
+        });
     }
 }

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "babel src -d build > /dev/null && node ./bin/www"
+    "start": "babel src -d build > /dev/null && node ./bin/www",
+    "test": "babel src -d build > /dev/null && node ./build/tests"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
@@ -16,6 +17,7 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0"
+    "babel-preset-env": "^1.7.0",
+    "tape": "^4.9.1"
   }
 }
