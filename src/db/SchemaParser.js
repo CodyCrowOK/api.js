@@ -1,4 +1,5 @@
 import Entities from '../models/Entities';
+import Relationships from '../models/Relationships';
 import {types, getInternalProperties} from './';
 
 export class SchemaParser {
@@ -44,6 +45,18 @@ export class SchemaParser {
                 const internalProperties = getInternalProperties(this.schema, name);
 
                 res.send(await Entities.fromDB(name, params, internalProperties));
+            });
+        });
+
+        relationshipRoutes.forEach(route => {
+            app.get(route, async (req, res) => {
+                const params = req.params;
+
+                const name = route.split('/')[1];
+
+                const internalProperties = getInternalProperties(this.schema, name);
+
+                res.send(await Relationships.fromDB(name, params, internalProperties));
             });
         });
     }

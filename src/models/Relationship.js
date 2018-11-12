@@ -22,12 +22,9 @@ export default class Relationship extends Model {
     static async fromDB(
         name,
         entityNames = [],
-        keys = {},
-        entityKeys = {},
-        internalProperties = [],
-        entityInternalProperties = {}
+        keys = {}
     ) {
-        const relationships = await Relationships.fromDB(name, entityNames, keys, internalProperties);
+        const relationships = await Relationships.fromDB(name, entityNames, keys);
         return relationships.first();
     }
 }
